@@ -40,18 +40,35 @@ When a new `price` comes in:
 ## Code
 
 ### StockSpanner Class
-```python
-class StockSpanner:
-    def __init__(self):
-        self.stack = []  # stack stores (price, span)
+```pythonvalues = [[], [100], [80], [60], [70], [60], [75], [85]]
 
-    def next(self, price: int) -> int:
-        span = 1  # today counts as 1 day
+solution = StockSpanner()
 
-        while self.stack and self.stack[-1][0] <= price:
-            top_price, top_span = self.stack[-1]
-            span += top_span
-            self.stack.pop()
+for p in values:
+    # p is a LIST each time (because values contains lists)
+    # examples:
+    # 1st loop: p = []
+    # 2nd loop: p = [100]
+    # 3rd loop: p = [80]
 
-        self.stack.append((price, span))
-        return span
+    # ❗Important:
+    # solution.next(...) expects an INT, but p is a LIST.
+    # So we must convert p -> price (an int).
+
+    if p == []:
+        # here p is empty, so there is NO price inside it
+        # we skip calling next() because next([]) would crash
+        print(p, "-> skipped (no price)")
+        continue
+
+    price = p[0]
+    # example when p = [70]:
+    # price = p[0] = 70
+
+    result = solution.next(price)
+    # example:
+    # result = solution.next(70) -> returns 2
+
+    print(p, "->", result)
+    # prints:
+    # [70] -> 2
